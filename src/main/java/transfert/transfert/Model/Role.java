@@ -1,9 +1,18 @@
 package transfert.transfert.Model;
 
+import javax.persistence.*;
+import java.util.List;
+
+@Entity
 public class Role {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @Column(unique = false, length = 30)
     private  String libelle;
+    @OneToMany(mappedBy = "role")
+    private List<Utilisateur> utilisateurs;
 
     public Role() {
     }
@@ -22,5 +31,13 @@ public class Role {
 
     public void setLibelle(String libelle) {
         this.libelle = libelle;
+    }
+
+    public List<Utilisateur> getUtilisateurs() {
+        return utilisateurs;
+    }
+
+    public void setUtilisateurs(List<Utilisateur> utilisateurs) {
+        this.utilisateurs = utilisateurs;
     }
 }

@@ -1,8 +1,15 @@
 package transfert.transfert.Model;
 
+import javax.persistence.*;
+
+@Entity
 public class Client extends Personne {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @OneToOne(mappedBy = "client")
     private Compte compte;
 
     public Client() {

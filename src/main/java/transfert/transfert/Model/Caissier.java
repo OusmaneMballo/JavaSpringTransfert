@@ -1,12 +1,27 @@
 package transfert.transfert.Model;
 
-public class Caissier extends Personne {
-    private int id;
-    private String code;
-    private String numContrat;
-    private String photo;
+import javax.persistence.*;
+import java.util.List;
 
-    public Caissier() {
+@Entity
+@DiscriminatorValue("C")
+public class Caissier extends Personne {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+    @Column(length = 10)
+    private String code;
+    @Column(length = 10)
+    private String numContrat;
+    @Column(length = 100)
+    private String photo;
+    @OneToMany(mappedBy = "caissier")
+    private List<Operation> operations;
+    @OneToMany(mappedBy = "caissier")
+    private List<Compte> comptes;
+
+    public Caissier(){
+
     }
 
     public Caissier(String nom, String prenom, String telephone, String nci, String code, String numContrat, String photo) {

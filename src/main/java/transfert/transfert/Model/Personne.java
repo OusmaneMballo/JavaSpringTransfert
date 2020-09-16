@@ -1,10 +1,21 @@
 package transfert.transfert.Model;
 
+import javax.persistence.*;
+
+@Entity
+@Inheritance(strategy= InheritanceType.JOINED)
+@DiscriminatorColumn(name="personne_type")
 public abstract class Personne {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @Column(length = 30)
     private String nom;
+    @Column(length = 30)
     private String prenom;
+    @Column(length = 15)
     private String telephone;
+    @Column(length = 30, unique = true, nullable = false)
     private String nci;
 
     public Personne() {

@@ -1,11 +1,26 @@
 package transfert.transfert.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
+import java.util.List;
+import transfert.transfert.Model.Caissier;
+
+@Entity
 public class Utilisateur{
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @Column(length = 30)
     private String nom;
+    @Column(length = 30)
     private String prenom;
+    @Column(length = 15)
     private String telephone;
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "role_id")
     private Role role;
 
     public Utilisateur() {

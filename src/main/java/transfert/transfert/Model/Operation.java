@@ -1,11 +1,25 @@
 package transfert.transfert.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
+
+@Entity
 public class Operation {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @Column(length = 20)
     private String type;
+    @Column(nullable = false)
     private float montant;
+    @Column(length = 12)
     private String date;
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "caissier_id")
+    private Caissier caissier;
 
     public Operation() {
     }
@@ -42,5 +56,13 @@ public class Operation {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public Caissier getCaissier() {
+        return caissier;
+    }
+
+    public void setCaissier(Caissier caissier) {
+        this.caissier = caissier;
     }
 }
