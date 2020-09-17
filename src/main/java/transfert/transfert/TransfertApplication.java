@@ -7,6 +7,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import transfert.transfert.DAO.RoleRepository;
 import transfert.transfert.Model.Role;
 
+import java.util.List;
+
 @SpringBootApplication
 public class TransfertApplication implements CommandLineRunner {
 
@@ -19,6 +21,12 @@ public class TransfertApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        System.out.println(roleRepo.findAll());
+
+        List<Role> listRoles=roleRepo.findAll();
+        if(listRoles.isEmpty()){
+            Role r=new Role();
+            r.setLibelle("Super_admin");
+            roleRepo.save(r);
+        }
     }
 }
