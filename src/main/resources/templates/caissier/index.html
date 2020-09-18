@@ -38,25 +38,39 @@
         });
     })
     function showform() {
-        document.getElementById('frm').hidden=false;
+        if(document.getElementById('frm').hidden===true){
+            document.getElementById('frm').hidden=false;
+            document.getElementById('button').innerText="X";
+        }
+        else{
+            document.getElementById('frm').hidden=true;
+            document.getElementById('button').innerText="Nouveau Caissier";
+        }
     }
-    function hiddenform() {
+    /*function hiddenform() {
         document.getElementById('frm').hidden=true;
-    }
+    }*/
 </script>
 <div class="container">
     <div class="row">
         <div class="col-md-12"><br/><br/>
-            <button type="button" class="btn btn-primary" onclick="showform()">Nouveau Medecin</button>
+            <button type="button" class="btn btn-primary" id="button" onclick="showform()">Nouveau Caissier</button>
             <form method="post" th:action="@{/caissier/addcaissier}" th:object="${caissier}" id="frm" hidden>
-                <div class="form-group">
-                    <label for="prenom_nom">Prenom&Nom</label>
-                    <input type="text" name="prenom_nom" class="form-control" id="prenom_nom" placeholder="Saisissez votre prenom & nom ici"/>
+                <div class="form-group form-row">
+                    <div class="form-group col-md-6">
+                        <label for="prenom">Prenom</label>
+                        <input type="text" name="prenom_nom" class="form-control" id="prenom" placeholder="Saisissez votre prenom ici"/>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="nom">Nom</label>
+                        <input type="text" name="prenom_nom" class="form-control" id="nom" placeholder="Saisissez votre nom ici"/>
+                    </div>
                 </div>
+
                 <div class="form-row">
                     <div class="form-group col-md-6">
-                        <label for="dateNaiss">Date de naissance</label>
-                        <input type="date" name="dateNaiss" class="form-control" id="dateNaiss"/>
+                        <label for="nci">Nci</label>
+                        <input type="text" name="nci" class="form-control" id="nci"/>
                     </div>
                     <div class="form-group col-md-6">
                         <label for="telephone">Telephone</label>
@@ -64,36 +78,10 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="adresse">Adress</label>
-                    <input type="text" name="adresse" class="form-control" id="adresse" placeholder="Votre adresse..."/>
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <label for="email">Email</label>
-                        <input type="email" name="email" class="form-control" id="email" placeholder="xxxx@yyy.zzz"/>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label for="password">Password</label>
-                        <input type="password" name="password" class="form-control" id="password" placeholder="Mot de passe"/>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <!--<div class="form-group col-md-6">
-                        <label for="service">Service</label>
-                        <select id="service" name="service" class="form-control" required>
-                            <option value="0" selected>Choose...</option>
-                            <option th:each="service:${services}" th:value="${service.id}" th:text="${service.libelle}"></th:eachoption>
-                        </select>
-                    </div>-->
-                    <div class="form-group col-md-6">
-                        <label for="specialite">Specialite</label>
-                        <select id="specialite" name="specialite" class="form-control">
-
-                        </select>
-                    </div>
+                    <label for="numContrat">Numero Contrat</label>
+                    <input type="text" name="numContrat" class="form-control" id="numContrat" placeholder="Votre adresse..."/>
                 </div>
                 <button type="submit" class="btn btn-primary">Enregistrer</button>
-                <button type="submit" class="btn btn-danger" onclick="hiddenform()">Annuler</button>
                 <input type="hidden" name="action" value="add">
             </form>
             <br/>
@@ -103,14 +91,11 @@
                     <thead>
                     <th><input type="checkbox" id="checkall" /></th>
                     <th>Prenom & Nom</th>
-                    <th>Date Naiss</th>
                     <th>Telephone</th>
-                    <th>Address</th>
-                    <th>Email</th>
-                    <th>Service</th>
-                    <th>Specialite</th>
-                    <th>Edit</th>
-                    <th>Delete</th>
+                    <th>Nci</th>
+                    <th>numContrat</th>
+                    <th>Code</th>
+                    <th>Actions</th>
                     </thead>
                     <tbody>
                     <!--<tr th:each="medecin:${medecins}">
