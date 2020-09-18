@@ -59,4 +59,20 @@ public class Caissier extends Personne {
     public void setPhoto(String photo) {
         this.photo = photo;
     }
+
+    public List<Operation> getOperations() {
+        return operations;
+    }
+
+    public void setOperations(List<Operation> operations) {
+        this.operations = operations;
+    }
+
+    public List<Compte> getComptes() {
+        return comptes;
+    }
+
+    public void setComptes(List<Compte> comptes) {
+        this.comptes = comptes;
+    }
 }
