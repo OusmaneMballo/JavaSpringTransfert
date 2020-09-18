@@ -27,8 +27,9 @@ public class CaissierController {
     @PostMapping("/addcaissier")
     public String addCaissier(@Validated Caissier caissier, BindingResult result, Model model){
         if(!(result.hasErrors())){
-            String code=caissier.getNci().substring(0,2)+"-"+
-                    caissier.getNom().substring(0,0)+caissier.getPrenom().substring(0,0);
+
+            String code=caissier.getNci().substring(0,4)+"-"+
+                    caissier.getNom().substring(0,1)+caissier.getPrenom().substring(0,1);
             caissier.setCode(code);
             caissierRepos.save(caissier);
         }

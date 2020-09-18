@@ -95,16 +95,15 @@
                     <th>Actions</th>
                     </thead>
                     <tbody>
-                    <!--<tr th:each="medecin:${medecins}">
+                    <tr th:each="caissier:${caissiers}">
                         <td>
                             <input type="checkbox" class="checkthis" />
                         </td>
-                        <td th:text="${medecin.prenom_nom}"></td>
-                        <td th:text="${medecin.datenaissance}"></td>
-                        <td th:text="${medecin.telephone}"></td>
-                        <td th:text="${medecin.adresse}"></td>
-                        <td th:text="${medecin.email}"></td>
-                        <td th:text="${medecin.service.libelle}"></td>
+                        <td th:text="${caissier.prenom}+${' '}+${caissier.nom}"></td>
+                        <td th:text="${caissier.telephone}"></td>
+                        <td th:text="${caissier.nci}"></td>
+                        <td th:text="${caissier.numContrat}"></td>
+                        <td th:text="${caissier.code}"></td>
                         <td>
                             <button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit" >
                                 <span class="glyphicon glyphicon-eye-open"></span>
@@ -124,7 +123,7 @@
                                 </button>
                             </p>
                         </td>
-                    </tr>-->
+                    </tr>
                     </tbody>
                 </table>
             </div>
