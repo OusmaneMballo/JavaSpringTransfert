@@ -24,13 +24,16 @@ public class CaissierController {
         return "caissier/index";
     }
 
-    @PostMapping("/addCaissier")
+    @PostMapping("/addcaissier")
     public String addCaissier(@Validated Caissier caissier, BindingResult result, Model model){
         if(!(result.hasErrors())){
+            String code=caissier.getNci().substring(0,2)+"-"+
+                    caissier.getNom().substring(0,0)+caissier.getPrenom().substring(0,0);
+            caissier.setCode(code);
             caissierRepos.save(caissier);
         }
         model.addAttribute("caissiers", caissierRepos.findAll());
-        return "caissier/caissier";
+        return "caissier/index";
     }
 
 }
