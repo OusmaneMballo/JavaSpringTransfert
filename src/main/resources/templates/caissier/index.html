@@ -1,10 +1,160 @@
-<!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <!--    <script src="${pageContext.request.contextPath}/js/medecin.js"></script>-->
+    <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <title>Admin | Home</title>
 </head>
 <body>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#service").change(function(){
+            if($("#service").val()===""){
+                $("#specialite").empty();
+                return;
+            }
+            $.ajax({
+                url:'/param/service/'+$("#service").val(),
+                type:'GET',
+                dataType:'json',
+                success:function(data){
+                    var option="";
+                    data.forEach((e)=>{
+                        option+="<option value='"+e.id+"'>"+e.libelle+"</option>";
+                    });
+                    $("#specialite").empty();
+                    $("#specialite").append(option);
+                },
+                error:function (err) {
+                    console.log(err);
+                }
+            })
+        });
+    })
+    function showform() {
+        document.getElementById('frm').hidden=false;
+    }
+    function hiddenform() {
+        document.getElementById('frm').hidden=true;
+    }
+</script>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12"><br/><br/>
+            <button type="button" class="btn btn-primary" onclick="showform()">Nouveau Medecin</button>
+            <form method="post" th:action="@{/caissier/addcaissier}" th:object="${caissier}" id="frm" hidden>
+                <div class="form-group">
+                    <label for="prenom_nom">Prenom&Nom</label>
+                    <input type="text" name="prenom_nom" class="form-control" id="prenom_nom" placeholder="Saisissez votre prenom & nom ici"/>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="dateNaiss">Date de naissance</label>
+                        <input type="date" name="dateNaiss" class="form-control" id="dateNaiss"/>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="telephone">Telephone</label>
+                        <input type="text" name="telephone" class="form-control" id="telephone"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="adresse">Adress</label>
+                    <input type="text" name="adresse" class="form-control" id="adresse" placeholder="Votre adresse..."/>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="email">Email</label>
+                        <input type="email" name="email" class="form-control" id="email" placeholder="xxxx@yyy.zzz"/>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="password">Password</label>
+                        <input type="password" name="password" class="form-control" id="password" placeholder="Mot de passe"/>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <!--<div class="form-group col-md-6">
+                        <label for="service">Service</label>
+                        <select id="service" name="service" class="form-control" required>
+                            <option value="0" selected>Choose...</option>
+                            <option th:each="service:${services}" th:value="${service.id}" th:text="${service.libelle}"></th:eachoption>
+                        </select>
+                    </div>-->
+                    <div class="form-group col-md-6">
+                        <label for="specialite">Specialite</label>
+                        <select id="specialite" name="specialite" class="form-control">
 
+                        </select>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Enregistrer</button>
+                <button type="submit" class="btn btn-danger" onclick="hiddenform()">Annuler</button>
+                <input type="hidden" name="action" value="add">
+            </form>
+            <br/>
+            <h4>Liste des medecins</h4>
+            <div class="table-responsive">
+                <table id="mytable" class="table table-bordred table-striped">
+                    <thead>
+                    <th><input type="checkbox" id="checkall" /></th>
+                    <th>Prenom & Nom</th>
+                    <th>Date Naiss</th>
+                    <th>Telephone</th>
+                    <th>Address</th>
+                    <th>Email</th>
+                    <th>Service</th>
+                    <th>Specialite</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                    </thead>
+                    <tbody>
+                    <!--<tr th:each="medecin:${medecins}">
+                        <td>
+                            <input type="checkbox" class="checkthis" />
+                        </td>
+                        <td th:text="${medecin.prenom_nom}"></td>
+                        <td th:text="${medecin.datenaissance}"></td>
+                        <td th:text="${medecin.telephone}"></td>
+                        <td th:text="${medecin.adresse}"></td>
+                        <td th:text="${medecin.email}"></td>
+                        <td th:text="${medecin.service.libelle}"></td>
+                        <td>
+                            <button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit" >
+                                <span class="glyphicon glyphicon-eye-open"></span>
+                            </button>
+                        </td>
+                        <td>
+                            <p data-placement="top" data-toggle="tooltip" title="Edit">
+                                <button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit" >
+                                    <span class="glyphicon glyphicon-pencil"></span>
+                                </button>
+                            </p>
+                        </td>
+                        <td>
+                            <p data-placement="top" data-toggle="tooltip" title="Delete">
+                                <button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete" >
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                </button>
+                            </p>
+                        </td>
+                    </tr>-->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--
+Created by Ousmane MBALLO.
+User: mballoS
+Date: 09/09/2020
+Time: 01:53
+-->
 </body>
 </html>

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,13 +17,20 @@ import transfert.transfert.Model.Caissier;
 public class CaissierController {
     @Autowired
     CaissierRepository caissierRepos;
+
+    @GetMapping("/accueil")
+    public String index(Model model){
+        model.addAttribute("caissiers", caissierRepos.findAll());
+        return "caissier/index";
+    }
+
     @PostMapping("/addCaissier")
     public String addCaissier(@Validated Caissier caissier, BindingResult result, Model model){
         if(!(result.hasErrors())){
             caissierRepos.save(caissier);
         }
         model.addAttribute("caissiers", caissierRepos.findAll());
-        return "caissier";
+        return "caissier/caissier";
     }
 
 }
