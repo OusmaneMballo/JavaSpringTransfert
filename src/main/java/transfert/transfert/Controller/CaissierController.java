@@ -5,12 +5,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import transfert.transfert.DAO.CaissierRepository;
 import transfert.transfert.Model.Caissier;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/caissier")
@@ -43,8 +42,8 @@ public class CaissierController {
         return "caissier/index";
     }
     @GetMapping("/editcaissier/{id}")
-    public String edit(@PathVariable(name="id") int idcaissier, Model model){
-        return "caissier/index";
+    public @ResponseBody Caissier edit(@PathVariable(name="id") int idcaissier){
+        return caissierRepos.findById(idcaissier);
     }
 
 }
