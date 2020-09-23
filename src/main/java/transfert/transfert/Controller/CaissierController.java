@@ -8,7 +8,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import transfert.transfert.DAO.CaissierRepository;
 import transfert.transfert.Model.Caissier;
-
 import java.util.List;
 
 @Controller
@@ -32,8 +31,7 @@ public class CaissierController {
             caissier.setCode(code);
             caissierRepos.save(caissier);
         }
-        model.addAttribute("caissiers", caissierRepos.findAll());
-        return "caissier/index";
+        return "redirect:/caissier/accueil";
     }
     @GetMapping("/deletecaissier/{id}")
     public String dellete(@PathVariable(name="id") int idcaissier, Model model){
@@ -41,9 +39,33 @@ public class CaissierController {
         model.addAttribute("caissiers", caissierRepos.findAll());
         return "caissier/index";
     }
-    @GetMapping("/editcaissier/{id}")
+    //Edit avec ajax
+   /* @GetMapping("/editcaissier/{id}")
     public @ResponseBody Caissier edit(@PathVariable(name="id") int idcaissier){
         return caissierRepos.findById(idcaissier);
+    }*/
+    @GetMapping("/editcaissier/{id}")
+    public String edit(@PathVariable(name="id") int idcaissier, Model model){
+        model.addAttribute("caissiers", caissierRepos.findAll());
+        model.addAttribute("caissier", caissierRepos.findById(idcaissier));
+        return "caissier/edit";
+    }
+
+    @PostMapping("/updatecaissier/caissier")
+    public String update(@ModelAttribute("caissier") Caissier caissier){
+        try{
+            Caissier updateCaissier=caissierRepos.findCaissierByCode(caissier.getCode());
+            if(updateCaissier!=null){
+                updateCaissier.setNumContrat(caissier.getNumContrat());
+                updateCaissier.setNom(caissier.getNom());
+                updateCaissier.setPrenom(caissier.getPrenom());
+                updateCaissier.setTelephone(caissier.getTelephone());
+                caissierRepos.flush();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return "redirect:/caissier/accueil";
     }
 
 }

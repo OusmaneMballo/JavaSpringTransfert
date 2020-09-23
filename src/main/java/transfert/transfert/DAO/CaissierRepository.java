@@ -11,6 +11,7 @@ import java.util.List;
 @Repository
 public interface CaissierRepository extends JpaRepository<Caissier, Integer> {
     public Caissier findById(int id);
+    public Caissier findCaissierByCode(String code);
     public List<Operation> findCaissierByOperations(Caissier c);
     public List<Compte> findByComptes(Caissier c);
 }

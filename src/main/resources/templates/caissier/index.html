@@ -37,7 +37,6 @@
                             <input type="text" name="nom" class="form-control" id="nom" placeholder="Saisissez votre nom ici..."/>
                         </div>
                     </div>
-
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="nci">Nci</label>
@@ -80,7 +79,7 @@
                             </td>
                             <td>
                                 <p data-placement="top" data-toggle="tooltip" title="Edit">
-                                    <a th:data-target="${caissier.id}" id="edit" class="edit">
+                                    <a th:href="@{/caissier/editcaissier/{id}(id = ${caissier.id})}" id="edit" class="edit">
                                         <button class="btn btn-primary btn-xs" data-title="edit" data-toggle="modal">
                                             <span class="glyphicon glyphicon-pencil"></span>
                                         </button>
@@ -109,7 +108,7 @@ User: mballoS
 Date: 09/09/2020
 Time: 01:53
 -->
-<script>
+<!--<script>
     $(".edit").click(function () {
         idcaissier=$(this).attr('data-target');
         $.ajax({
@@ -134,6 +133,6 @@ Time: 01:53
 
 
     })
-</script>
+</script>-->
 </body>
 </html>
