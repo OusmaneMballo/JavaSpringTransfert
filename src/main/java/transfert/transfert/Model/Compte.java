@@ -21,7 +21,7 @@ public class Compte {
     private Personne client;
     @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "caissier_id")
+    @JoinColumn(name = "caissier_id", referencedColumnName = "id")
     private Personne caissier;
 
     public Compte() {
