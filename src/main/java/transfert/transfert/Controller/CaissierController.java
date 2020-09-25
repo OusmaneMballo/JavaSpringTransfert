@@ -7,7 +7,14 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import transfert.transfert.DAO.CaissierRepository;
+import transfert.transfert.DAO.CompteRepository;
 import transfert.transfert.Model.Caissier;
+import transfert.transfert.Model.Client;
+import transfert.transfert.Model.Compte;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -15,6 +22,8 @@ import java.util.List;
 public class CaissierController {
     @Autowired
     CaissierRepository caissierRepos;
+    @Autowired
+    CompteRepository compteRepos;
 
     @GetMapping("/accueil")
     public String index(Model model){
@@ -29,10 +38,23 @@ public class CaissierController {
             String code=caissier.getNci().substring(0,4)+"-"+
                     caissier.getNom().substring(0,1)+caissier.getPrenom().substring(0,1);
             caissier.setCode(code);
-            caissierRepos.save(caissier);
+            this.addCompte(caissierRepos.save(caissier));
         }
         return "redirect:/caissier/accueil";
     }
+
+    public void addCompte(Caissier cl){
+        Compte compte=new Compte();
+        compte.setCaissier(cl);
+        DateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        Date date = new Date();
+        compte.setDate_crea(format.format(date));
+        compte.setMontant(6000);
+        compte.setNumero(cl.getNci().substring(0,4)+compteRepos.findAll().size()+"-"+
+                cl.getPrenom().substring(0,1)+cl.getNom().substring(0,1));
+        compteRepos.save(compte);
+    }
+
     @GetMapping("/deletecaissier/{id}")
     public String dellete(@PathVariable(name="id") int idcaissier, Model model){
         caissierRepos.deleteById(idcaissier);

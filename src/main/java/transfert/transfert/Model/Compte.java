@@ -12,16 +12,16 @@ public class Compte {
     private int id;
     @Column(length = 15)
     private String numero;
-    @Column(length = 15)
+    @Column(length = 25)
     private String date_crea;
     @Column(nullable = false)
     private float montant;
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "client_id", referencedColumnName = "id")
+    @JoinColumn(name = "client_id")
     private Personne client;
     @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "caissier_id", referencedColumnName = "id")
+    @JoinColumn(name = "caissier_id")
     private Personne caissier;
 
     public Compte() {
